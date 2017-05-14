@@ -106,7 +106,11 @@ int main()
 				ret = write(fd, buf, ret);
 				break;
 			case ETH_P_IP:
-				printf("ip packet, fixme!\n");
+				printf("ip packet\n");
+				ip_in(hdr->payload);
+				memcpy(hdr->dmac, hdr->smac, 6);
+				memcpy(hdr->smac, macaddr, 6);
+				ret = write(fd, buf, ret);
 				break;
 			default:
 				printf("drop unkown-type packet\n");
